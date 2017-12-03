@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Pomodorist</title>
+    <title>Pomodorist1</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,37 +10,213 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <style type="text/css">
+h1 {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 72px;
+    font-color: black;
+}
+
 body {
-    background-color: green;
+    position: fixed;
+    top: 200px;
+    left: 0px;
+    right: 0px;
+    bottom: 72px;
+    background-image: url("../img/background.jpg");
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#timer {
+    font-size: 150px;
+}
+
+#start {
+    background-color: #00ff99;
+    border-radius: 10px;
+}
+
+#shortbreak {
+    background-color: #3399ff;
+    border-radius: 10px;
+}
+
+#longbreak {
+    background-color: #3399ff;
+    border-radius: 10px;
+}
+
+#stop {
+
+    background-color: #DC143C;
+    border-radius: 10px;
+}
+
+#reset {
+    background-color: #3399ff;
+    border-radius: 10px;
+}
+
+footer {
+
+    position: fixed;
+    height: 160px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    font-size: 15px;
 }
 </style>
 
 <body>
-    <h1>Pomodoro timer</h1>
-    <div id="msg">
-    </div>
-    <div id="timer">
-        <span id="minutes">25</span>
-        <span id="midle">:</span>
-        <span id="seconds">00</span>
-    </div>
-    <div id="buttons">
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="reset">Reset</button>
-    </div>
-    <div id="test"></div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-    var minutes = document.getElementById("minutes");
-    var seconds = document.getElementById("seconds");
-    var msg = document.getElementByi("msg");
-    var test = document.getElementById("test");
-    </script>
+    <h1>
+        <center>
+        Pomodoro timer
+    </center>
+</h1>
+    <main align="middle">
+        <div id="timer">
+            <span id="minutes">25</span>
+            <span id="midle">:</span>
+            <span id="seconds">00</span>
+        </div>
+        <div id="buttons">
+            <button id="start" onclick="start()">Start</button>
+            <button id="shortbreak" onclick="shortBreak()">Short break</button>
+            <button id="longbreak" onclick="longBreak()">Long break</button>
+            <button id="stop" onclick="stopTimer()">Stop</button>
+            <button id="reset" onclick="resetTimer()">Reset</button>
+            <audio id="aud" src="ding-sound-effect_2.mp3"></audio>
+        </div>
+        <footer>
+            <div>Simple instructions: </div>
+            <div>1. Decide on the task to be done
+                <div>
+                    <div>2. Set the pomodoro timer
+                        <div>
+                            <div>3. Work on the task
+                                <div>
+                                    <div>5. Take a short break
+                                        <div>
+                                            <div>6. Then go to step 2.
+                                                <div>
+                                                    <div>7. After four pomodoros, take a longer break
+                                                        <div>
+        </footer>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+        var minutes = 24;
+        var seconds = 60;
+        var timer;
+
+
+        function resetTimer() {
+            location.reload();
+        }
+
+        function Count() {
+            seconds--;
+            document.getElementById("seconds").innerHTML = seconds;
+            document.getElementById("minutes").innerHTML = minutes;
+
+            if (minutes >= 1 && seconds > 0) {
+
+            } else if (minutes >= 1 && seconds == 0) {
+                seconds = 59;
+                minutes--;
+            } else if (minutes == 0 && seconds > 0) {
+
+            } else if (minutes == 0, seconds == 0) {
+
+                stopTimer();
+                resetTimer();
+
+            }
+
+        }
+
+
+        function start() {
+
+
+            timer = setInterval(Count, 1000);
+
+        }
+
+
+        var minutesShBreak = 4;
+
+        function shotrBreakcount() {
+
+            seconds--;
+            document.getElementById("seconds").innerHTML = seconds;
+            document.getElementById("minutes").innerHTML = minutesShBreak;
+
+            if (minutesShBreak >= 1 && seconds > 0) {
+
+            } else if (minutesShBreak >= 1 && seconds == 0) {
+                seconds = 59;
+                minutesShBreak--;
+            } else if (minutesShBreak == 0 && seconds > 0) {
+
+            } else if (minutesShBreak == 0, seconds == 0) {
+
+                stopTimer();
+                resetTimer();
+            }
+        }
+
+        var timerS;
+
+        function shortBreak() {
+            timerS = setInterval(shotrBreakcount, 1000);
+
+        }
+
+        var minutesLBreak = 14;
+
+        function longBreakcount() {
+
+            seconds--;
+            document.getElementById("seconds").innerHTML = seconds;
+            document.getElementById("minutes").innerHTML = minutesLBreak;
+            if (minutesLBreak >= 1 && seconds > 0) {
+
+            } else if (minutesLBreak >= 1 && seconds == 0) {
+                seconds = 59;
+                minutesLBreak--;
+            } else if (minutesLBreak == 0 && seconds > 0) {
+
+            } else if (minutesLBreak == 0, seconds == 0) {
+                stopTimer();
+                resetTimer();
+            }
+        }
+
+        var timerL;
+
+        function longBreak() {
+            timerL = setInterval(longBreakcount, 1000);
+
+        }
+
+        var audio = document.getElementById("aud");
+        audio.play();
+
+        function stopTimer() {
+
+            clearInterval(timer);
+            clearInterval(timerS);
+            clearInterval(timerL);
+        }
+        </script>
 </body>
 
 </html>
